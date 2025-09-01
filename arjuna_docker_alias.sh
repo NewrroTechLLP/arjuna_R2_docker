@@ -53,4 +53,3 @@ else
   echo "$DOCKER_ALIAS_BLOCK" >> "$SHELL_RC"
   echo "Please run 'source $SHELL_RC' or restart your shell to enable the alias."
 fi
-
