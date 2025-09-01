@@ -231,6 +231,7 @@ RUN pip3 install setuptools==58.2.0
 WORKDIR /root
 
 git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && cd arjuna2_ws/src && git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git && cd .. && colcon build --symlink-install && colcon build --symlink-install
+
 # Source the workspace automatically in bash
 RUN echo "source /root/arjuna2_ws/install/setup.bash" >> ~/.bashrc
 
