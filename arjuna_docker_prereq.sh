@@ -15,7 +15,7 @@ echo "Install "
 if ! command -v code &> /dev/null
 then
     echo "VS Code is not installed. Please wait, installing VS Code first..."
-    sudo apt install ./code_1.83.1-1696982739_arm64.deb
+    sudo apt install ~/arjuna_R2_docker/code_1.83.1-1696982739_arm64.deb
 else
     echo "VS Code already installed!!"
     echo ""
