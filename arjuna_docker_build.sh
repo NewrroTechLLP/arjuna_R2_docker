@@ -167,6 +167,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
 
+SHELL ["/bin/bash", "-c"]
 
 # Install essential packages
 RUN apt-get update && apt-get install -y \
@@ -201,7 +202,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
-RUN source /root/.bashrc
+RUN (source /root/.bashrc || . /root/.bashrc)
 
 # Extra Python tools for ROS 2
 RUN pip3 install -U \
@@ -228,20 +229,25 @@ RUN python3 -m pip install --upgrade pip
 RUN pip3 install --upgrade importlib-metadata
 RUN pip3 install setuptools==58.2.0
 
-# Set working directory to /root
+# 👇 Source ROS automatically when container starts
+RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN (source /root/.bashrc || . /root/.bashrc)
+
 WORKDIR /root
 
+# Clone and build workspace
 RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git
-RUN cd arjuna2_ws/src && git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git
-RUN cd .. && source /opt/ros/foxy/setup.bash
-RUN colcon build --symlink-install && colcon build --symlink-install
+WORKDIR /root/arjuna2_ws/src
+RUN git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git
 
-# Source the workspace automatically in bash
+WORKDIR /root/arjuna2_ws
+RUN (source /opt/ros/foxy/setup.bash || . /opt/ros/foxy/setup.bash) && colcon build --symlink-install
+
+# 👇 Source workspace automatically
 RUN echo "source /root/arjuna2_ws/install/setup.bash" >> /root/.bashrc
-RUN source /root/.bashrc
+RUN (source /root/.bashrc || . /root/.bashrc)
 
-RUN echo "/usr/local/cuda/lib64" > /etc/ld.so.conf.d/cuda.conf && ldconfig
-
+# Final shell
 CMD ["/bin/bash"]
 
 EOF
