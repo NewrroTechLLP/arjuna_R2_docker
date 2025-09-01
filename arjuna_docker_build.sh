@@ -153,11 +153,11 @@ echo ""
 
 echo "[Step 4] Creating directory ~/arjuna and Dockerfile..."
 
-mkdir -p ~/arjuna
+mkdir -p ~/arjuna_R2_docker/Arjuna
 
 # This Dockerfile starts from a proper Ubuntu 20.04-based L4T image
 # and avoids the problematic do-release-upgrade command.
-cat <<'EOF' > ~/arjuna/Dockerfile
+cat <<'EOF' > ~/arjuna_R2_docker/Arjuna/Dockerfile
 # Dockerfile
 FROM arm64v8/ubuntu:20.04
 
@@ -230,18 +230,10 @@ RUN pip3 install setuptools==58.2.0
 # Set working directory to /root
 WORKDIR /root
 
-# Create ROS2 workspace structure
-RUN mkdir -p /root/arjuna_v2/src
-
-# Copy your source code into the workspace (optional, if you already have code)
-# COPY ./src /root/arjuna_v2/src
-
-# Build the workspace
-WORKDIR /root/arjuna_v2
-RUN colcon build
+git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && cd arjuna2_ws/src && git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git && cd .. && colcon build --symlink-install && colcon build --symlink-
 
 # Source the workspace automatically in bash
-RUN echo "source /root/arjuna_v2/install/setup.bash" >> ~/.bashrc
+RUN echo "source /root/arjuna2_ws/install/setup.bash" >> ~/.bashrc
 
 RUN echo "/usr/local/cuda/lib64" > /etc/ld.so.conf.d/cuda.conf && ldconfig
 
@@ -254,7 +246,7 @@ echo ""
 
 # --- Step 5: Build Docker image ---
 
-cd ~/arjuna
+cd ~/arjuna_R2_docker/Arjuna
 
 echo "[Step 5] Building Docker image 'arjuna_v2' from ~/arjuna (this might take a while)..."
 # Image name
@@ -267,7 +259,7 @@ echo ""
 echo "[INFO] Building Docker image: $IMAGE_NAME"
 sudo docker build -t $IMAGE_NAME .
 
-sudo bash ~/arjuna_docker_alias.sh
+sudo bash ~/arjuna_R2_docker/arjuna_docker_alias.sh
 
 echo ""
 echo ""
@@ -291,4 +283,3 @@ echo "###              ros2arjuna                          ###"
 echo "########################################################"
 echo ""
 echo "NOTE: You might need to log out and log back in for docker group changes to apply."
-
