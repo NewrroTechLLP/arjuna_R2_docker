@@ -224,16 +224,24 @@ RUN pip3 install -U \
     setuptools
 
 RUN python3 -m pip install --upgrade pip
-RUN pip3 install --upgrade importlib -metadata
+RUN pip3 install --upgrade importlib-metadata
 RUN pip3 install setuptools==58.2.0
 
 # Set working directory to /root
 WORKDIR /root
 
-RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && cd arjuna2_ws/src && git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git && cd .. && colcon build --symlink-install && colcon build --symlink-install
+# Create ROS2 workspace structure
+RUN mkdir -p /root/arjuna_v2/src
+
+# Copy your source code into the workspace (optional, if you already have code)
+# COPY ./src /root/arjuna_v2/src
+
+# Build the workspace
+WORKDIR /root/arjuna_v2
+RUN colcon build
 
 # Source the workspace automatically in bash
-RUN echo "source /root/arjuna2_ws/install/setup.bash" >> ~/.bashrc
+RUN echo "source /root/arjuna_v2/install/setup.bash" >> ~/.bashrc
 
 RUN echo "/usr/local/cuda/lib64" > /etc/ld.so.conf.d/cuda.conf && ldconfig
 
@@ -259,7 +267,7 @@ echo ""
 echo "[INFO] Building Docker image: $IMAGE_NAME"
 sudo docker build -t $IMAGE_NAME .
 
-sudo bash arjuna_docker_alias.sh
+sudo bash ~/arjuna_docker_alias.sh
 
 echo ""
 echo ""
