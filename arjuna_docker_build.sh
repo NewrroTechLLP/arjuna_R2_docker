@@ -200,7 +200,8 @@ RUN apt-get update && apt-get install -y \
     python3-argcomplete \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN source /root/.bashrc
 
 # Extra Python tools for ROS 2
 RUN pip3 install -U \
@@ -232,10 +233,12 @@ WORKDIR /root
 
 RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git
 RUN cd arjuna2_ws/src && git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git
+RUN source /opt/ros/foxy/setup.bash
 RUN cd .. && colcon build --symlink-install && colcon build --symlink-install
 
 # Source the workspace automatically in bash
-RUN echo "source /root/arjuna2_ws/install/setup.bash" >> ~/.bashrc
+RUN echo "source /root/arjuna2_ws/install/setup.bash" >> /root/.bashrc
+RUN source /root/.bashrc
 
 RUN echo "/usr/local/cuda/lib64" > /etc/ld.so.conf.d/cuda.conf && ldconfig
 
