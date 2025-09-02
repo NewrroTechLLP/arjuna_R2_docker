@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-# The SUDO_PASSWORD variable is now expected to be passed from the parent script
+# Prompt for the sudo password at the beginning
+read -s -p "Enter your sudo password: " SUDO_PASSWORD
+echo
 
 echo "[WRAPPER] Running VS Code setup as user..."
 echo "$SUDO_PASSWORD" | sudo -S bash ~/arjuna_R2_docker/arjuna_docker_prereq.sh
