@@ -274,14 +274,14 @@ echo ""
 echo "[INFO] Sourcing the ~/.bashrc"
 source ~/.bashrc
 
-sudo rm -rf arjuna_R2_docker/
+sudo rm -rf ~/arjuna_R2_docker/
 
 echo ""
 echo ""
 
 # Run the container with JetPack bindings
 echo "[INFO] Running Docker container with NVIDIA runtime and JetPack volumes..."
-sudo ros2arjuna
+ros2arjuna
 
 echo ""
 echo "########################################################"
