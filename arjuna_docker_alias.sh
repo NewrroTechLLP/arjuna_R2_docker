@@ -16,10 +16,10 @@ if ! systemctl is-active --quiet docker; then
 fi
 
 # --- Determine shell RC file ---
-SHELL_RC="$HOME/.bashrc"  # change to ~/.zshrc if using Zsh
+SHELL_RC="$HOME/.bashrc"
 
 # --- Docker helper functions ---
-read -r -d '' DOCKER_ALIAS_BLOCK <<'EOF'
+DOCKER_ALIAS_BLOCK=$(cat <<'EOF'
 
 # --- BEGIN ROS2ARJUNA HELPERS ---
 ros2arjuna() {
@@ -64,8 +64,8 @@ ros2arjuna_commit() {
     fi
 }
 # --- END ROS2ARJUNA HELPERS ---
-
 EOF
+)
 
 # --- Append to shell rc file if not already present ---
 if grep -q "BEGIN ROS2ARJUNA HELPERS" "$SHELL_RC"; then
