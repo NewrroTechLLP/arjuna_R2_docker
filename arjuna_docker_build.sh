@@ -201,9 +201,6 @@ RUN apt-get update && apt-get install -y \
     python3-argcomplete \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
-RUN (source /root/.bashrc || . /root/.bashrc)
-
 # Extra Python tools for ROS 2
 RUN pip3 install -U \
     argcomplete \
@@ -231,21 +228,20 @@ RUN pip3 install setuptools==58.2.0
 
 # 👇 Source ROS automatically when container starts
 RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
-RUN (source /root/.bashrc || . /root/.bashrc)
 
 WORKDIR /root
 
-# Clone and build workspace
-RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git
-WORKDIR /root/arjuna2_ws/src
-RUN git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && git clone https://github.com/flynneva/bno055.git
-
-WORKDIR /root/arjuna2_ws
-RUN (source /opt/ros/foxy/setup.bash || . /opt/ros/foxy/setup.bash) && colcon build --symlink-install
+# Clone and build workspace in a single RUN command
+RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
+    cd arjuna2_ws/src && \
+    git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && \
+    git clone https://github.com/flynneva/bno055.git && \
+    cd /root/arjuna2_ws && \
+    source /opt/ros/foxy/setup.bash && \
+    colcon build --symlink-install
 
 # 👇 Source workspace automatically
 RUN echo "source /root/arjuna2_ws/install/setup.bash" >> /root/.bashrc
-RUN (source /root/.bashrc || . /root/.bashrc)
 
 # Final shell
 CMD ["/bin/bash"]
