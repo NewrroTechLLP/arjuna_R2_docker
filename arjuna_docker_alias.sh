@@ -27,21 +27,40 @@ echo ""
 # Define the alias/function block
 read -r -d '' DOCKER_ALIAS_BLOCK <<'EOF'
 
-# Alias to run ROS2 Foxy container named "arjuna_v2"
 ros2arjuna() {
-  # Run container with GPU, volumes, network
-  # Start container interactively
-  # Save changes on exit by committing container to image
-
-  # Generate a random container name to avoid conflicts
-  local container_name="arjuna_temp_$(date +%s)"
-
-  sudo docker run -it --name "$container_name" --runtime nvidia --network host --env NVIDIA_VISIBLE_DEVICES=all --env NVIDIA_DRIVER_CAPABILITIES=all --volume /usr/local/cuda:/usr/local/cuda --volume "$HOME/ros2_ws:/root/ros2_ws" arjuna_v2
-
-  # After container exits, commit changes back to image
-  echo "Committing container changes to image 'arjuna_v2'..."
-  sudo docker commit "$container_name" arjuna_v2
+  if ! sudo docker ps -a --format '{{.Names}}' | grep -q '^arjuna_dev$'; then
+    echo "Container 'arjuna_dev' not found. Creating it..."
+    sudo docker run -it --name arjuna_dev \
+      --runtime nvidia \
+      --network host \
+      --env NVIDIA_VISIBLE_DEVICES=all \
+      --env NVIDIA_DRIVER_CAPABILITIES=all \
+      --volume /usr/local/cuda:/usr/local/cuda \
+      --volume "$HOME/ros2_ws:/root/ros2_ws" \
+      arjuna_v2
+  else
+    echo "Starting existing container 'arjuna_dev'..."
+    sudo docker start -ai arjuna_dev
+  fi
 }
+
+ros2arjuna_ext() {
+  sudo docker exec -it arjuna_dev bash
+}
+
+ros2arjuna_commit() {
+  echo "Stopping container arjuna_dev (if running)..."
+  sudo docker stop arjuna_dev 2>/dev/null || true
+
+  echo "Committing changes from container 'arjuna_dev' to image 'arjuna_v2'..."
+  sudo docker commit arjuna_dev arjuna_v2
+
+  echo "Removing old container..."
+  sudo docker rm arjuna_dev 2>/dev/null || true
+
+  echo "Done ✅. Next time you run 'ros2arjuna', it will use the updated image."
+}
+
 
 EOF
 
