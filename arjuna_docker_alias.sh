@@ -31,7 +31,7 @@ ros2arjuna() {
             --env NVIDIA_VISIBLE_DEVICES=all \
             --env NVIDIA_DRIVER_CAPABILITIES=all \
             --volume /usr/local/cuda:/usr/local/cuda \
-            --volume "$HOME/ros2_ws:/root/ros2_ws" \
+            --volume "$HOME/arjuna2_ws:/root/arjuna2_ws" \
             arjuna_v2
     else
         echo "[INFO] Starting existing container 'arjuna_dev'..."
