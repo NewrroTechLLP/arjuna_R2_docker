@@ -22,15 +22,11 @@ else
     echo ""
 fi
 
-# Get the original user
+# Use the 'runuser' command to execute the 'code' commands as the original user
+# who called the script, not as root.
 USER_TO_RUN=${SUDO_USER:-$USER}
 
-# Create a temporary script to install extensions as the user
-EXT_SCRIPT=$(mktemp)
-
-cat > "$EXT_SCRIPT" << EOF
-#!/bin/bash
-set -e
+echo "Installing VS Code extensions as user: $USER_TO_RUN"
 
 # List of extensions to install
 extensions=(
@@ -43,21 +39,10 @@ extensions=(
 )
 
 # Install each extension
-for extension in "\${extensions[@]}"
+for extension in "${extensions[@]}"
 do
-    echo "Installing extension: \$extension"
-    code --install-extension "\$extension"
+    echo "Installing extension: $extension"
+    runuser -l "$USER_TO_RUN" -c "code --install-extension $extension"
 done
-EOF
-
-# Make the temporary script executable
-chmod +x "$EXT_SCRIPT"
-
-# Execute the temporary script as the intended user
-echo "Installing VS Code extensions as user: $USER_TO_RUN"
-runuser -l "$USER_TO_RUN" -c "$EXT_SCRIPT"
-
-# Clean up the temporary script
-rm "$EXT_SCRIPT"
 
 echo "All extensions installed successfully!"
