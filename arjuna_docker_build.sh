@@ -170,7 +170,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 SHELL ["/bin/bash", "-c"]
 
 # Install essential packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
     lsb-release \
     gnupg2 \
     curl \
@@ -188,13 +188,13 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # ROS 2 Foxy setup
-RUN apt-get update && apt-get install -y curl gnupg2 lsb-release
+RUN apt-get update -o Acquire::Retries=5 && apt-get install -y curl gnupg2 lsb-release
 
 RUN curl -sSL http://repo.ros2.org/repos.key | apt-key add - && \
     add-apt-repository universe && \
     echo "deb [arch=arm64] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
     ros-foxy-desktop \
     python3-colcon-common-extensions \
     python3-pip \
