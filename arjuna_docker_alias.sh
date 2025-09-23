@@ -26,6 +26,8 @@ ros2arjuna() {
     if ! sudo docker ps -a --format '{{.Names}}' | grep -q '^arjuna_dev$'; then
         echo "[INFO] Container 'arjuna_dev' not found. Creating it..."
         sudo docker run -it --name arjuna_dev \
+            --privileged \
+            -v /dev:/dev \
             --runtime nvidia \
             --network host \
             --env NVIDIA_VISIBLE_DEVICES=all \
