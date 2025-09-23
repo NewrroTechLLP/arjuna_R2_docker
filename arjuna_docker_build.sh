@@ -1,4 +1,4 @@
-#!/bin/bash
+ork#!/bin/bash
 
 set -e
 set -o pipefail
@@ -264,7 +264,7 @@ echo ""
 
 # Build the Docker image
 echo "[INFO] Building Docker image: $IMAGE_NAME"
-sudo docker build -t $IMAGE_NAME .
+sudo docker build --network=host -t $IMAGE_NAME .
 
 sudo bash ~/arjuna_R2_docker/arjuna_docker_alias.sh
 
