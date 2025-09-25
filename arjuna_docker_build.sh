@@ -239,7 +239,7 @@ WORKDIR /root
 RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
     cd arjuna2_ws/src && \
     git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && \
-    git clone https://github.com/flynneva/bno055.git && \
+    git clone https://github.com/dheera/ros-imu-bno055.git && \
     cd /root/arjuna2_ws && \
     source /opt/ros/foxy/setup.bash && \
     colcon build --symlink-install
