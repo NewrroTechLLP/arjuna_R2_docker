@@ -225,6 +225,9 @@ RUN pip3 install -U \
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install --upgrade importlib-metadata
 RUN pip3 install setuptools==58.2.0
+RUN apt update && \
+    apt install -y nano && \
+    apt clean
 
 # 👇 Source ROS automatically when container starts
 RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
