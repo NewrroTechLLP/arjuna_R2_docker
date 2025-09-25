@@ -228,6 +228,7 @@ RUN pip3 install setuptools==58.2.0
 RUN apt update && \
     apt install -y nano && \
     apt clean
+RUN apt install -y 12c-tools
 
 # 👇 Source ROS automatically when container starts
 RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
