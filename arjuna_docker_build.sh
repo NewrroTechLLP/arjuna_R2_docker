@@ -248,7 +248,7 @@ RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
 
 # Add ros2arjuna_setup function to .bashrc
 RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
-    echo '  cd /root/arjuna2_ws/{*,.??*} && sudo rm -r * && cd /root/'>> /root/.bashrc && \
+    echo '  cd /root/ && sudo rm -r /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
     echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && \
     echo '  cd arjuna2_ws/src' >> /root/.bashrc && \
     echo '  git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git' >> /root/.bashrc && \
