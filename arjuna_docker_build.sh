@@ -247,8 +247,7 @@ RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
     colcon build --symlink-install
 
 # Add ros2arjuna_setup function to .bashrc
-RUN 
-    echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
+RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
     echo 'cd arjuna2_ws && sudo rm -r * && cd /root/'>> /root/.bashrc && \
     echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && \
     echo '  cd arjuna2_ws/src' >> /root/.bashrc && \
