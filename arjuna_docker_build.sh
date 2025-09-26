@@ -203,6 +203,8 @@ RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
 
 # Extra Python tools for ROS 2
 RUN pip3 install -U \
+    pyserial \
+    serial \
     argcomplete \
     flake8 \
     flake8-blind-except \
@@ -243,6 +245,20 @@ RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
     cd /root/arjuna2_ws && \
     source /opt/ros/foxy/setup.bash && \
     colcon build --symlink-install
+
+# Add ros2arjuna_setup function to .bashrc
+RUN 
+    echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
+    echo 'cd arjuna2_ws && sudo rm -r *'>> /root/.bashrc && \
+    echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && \
+    echo '  cd arjuna2_ws/src' >> /root/.bashrc && \
+    echo '  git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git' >> /root/.bashrc && \
+    echo '  git clone https://github.com/dheera/ros-imu-bno055.git' >> /root/.bashrc && \
+    echo '  cd /root/arjuna2_ws' >> /root/.bashrc && \
+    echo '  source /opt/ros/foxy/setup.bash' >> /root/.bashrc && \
+    echo '  colcon build --symlink-install' >> /root/.bashrc && \
+    echo '}' >> /root/.bashrc
+
 
 # 👇 Source workspace automatically
 RUN echo "source /root/arjuna2_ws/install/setup.bash" >> /root/.bashrc
@@ -291,3 +307,5 @@ echo "###              ros2arjuna                          ###"
 echo "########################################################"
 echo ""
 echo "NOTE: You might need to log out and log back in for docker group changes to apply."
+
+sudo rm -r ~/Arjuna_2_Docker.sh
