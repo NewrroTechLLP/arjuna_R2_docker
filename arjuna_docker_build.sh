@@ -237,18 +237,9 @@ RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
 WORKDIR /root
 
-# Clone and build workspace in a single RUN command
-RUN git clone https://github.com/NewrroTechLLP/arjuna2_ws.git && \
-    cd arjuna2_ws/src && \
-    git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git && \
-    git clone https://github.com/dheera/ros-imu-bno055.git && \
-    cd /root/arjuna2_ws && \
-    source /opt/ros/foxy/setup.bash && \
-    colcon build --symlink-install
-
 # Add ros2arjuna_setup function to .bashrc
 RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
-    echo '  cd /root/ && sudo rm -r /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
+    echo '  cd /root/ && sudo rm -rf /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
     echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && \
     echo '  cd arjuna2_ws/src' >> /root/.bashrc && \
     echo '  git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git' >> /root/.bashrc && \
