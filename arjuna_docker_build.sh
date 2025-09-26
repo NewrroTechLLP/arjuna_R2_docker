@@ -255,6 +255,7 @@ RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
     echo '  git clone https://github.com/dheera/ros-imu-bno055.git' >> /root/.bashrc && \
     echo '  cd /root/arjuna2_ws' >> /root/.bashrc && \
     echo '  source /opt/ros/foxy/setup.bash' >> /root/.bashrc && \
+    echo '  source /root/arjuna2_ws/install/setup.bash' >> /root/.bashrc && \
     echo '  colcon build --symlink-install' >> /root/.bashrc && \
     echo '  cd /root/' >> /root/.bashrc && \
     echo '}' >> /root/.bashrc
