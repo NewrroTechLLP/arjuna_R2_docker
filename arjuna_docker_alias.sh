@@ -34,6 +34,11 @@ ros2arjuna() {
             --env NVIDIA_DRIVER_CAPABILITIES=all \
             --volume /usr/local/cuda:/usr/local/cuda \
             --volume "$HOME/arjuna2_ws:/root/arjuna2_ws" \
+            -e DISPLAY="$DISPLAY" \
+            -e XAUTHORITY="$XAUTHORITY" \
+            -e QT_X11_NO_MITSHM=1 \
+            -v /tmp/.X11-unix:/tmp/.X11-unix \
+            -v "$XAUTHORITY:$XAUTHORITY" \
             arjuna_v2
     else
         echo "[INFO] Starting existing container 'arjuna_dev'..."
