@@ -222,7 +222,7 @@ RUN pip3 install -U \
     pytest-repeat \
     pytest-rerunfailures \
     pytest \
-    setuptools
+    setuptools 
 
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install --upgrade importlib-metadata
@@ -239,21 +239,18 @@ WORKDIR /root
 
 # Add ros2arjuna_setup function to .bashrc
 RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
-    echo '  cd /root/ && sudo rm -rf /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
-    echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && \
-    echo '  cd arjuna2_ws/src' >> /root/.bashrc && \
-    echo '  git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git' >> /root/.bashrc && \
-    echo '  git clone https://github.com/dheera/ros-imu-bno055.git' >> /root/.bashrc && \
-    echo '  cd /root/arjuna2_ws' >> /root/.bashrc && \
+    echo '  cd /root/arjuna_ros2 && sudo rm -rf /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
+    echo '  git clone https://github.com/NewrroTechLLP/arjuna2_ws.git' >> /root/.bashrc && 
+    echo '  cd /root/arjuna_ros2/arjuna2_ws' >> /root/.bashrc && \
     echo '  source /opt/ros/foxy/setup.bash' >> /root/.bashrc && \
-    echo '  source /root/arjuna2_ws/install/setup.bash' >> /root/.bashrc && \
+    echo '  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash' >> /root/.bashrc && \
     echo '  colcon build --symlink-install' >> /root/.bashrc && \
     echo '  cd /root/' >> /root/.bashrc && \
     echo '}' >> /root/.bashrc
 
 
 # 👇 Source workspace automatically
-RUN echo "source /root/arjuna2_ws/install/setup.bash" >> /root/.bashrc
+RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc
 
 # Final shell
 CMD ["/bin/bash"]
