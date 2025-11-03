@@ -238,15 +238,16 @@ RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 WORKDIR /root
 
 # Add ros2arjuna_setup function to .bashrc
-RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc && \
-    echo '  cd /root/arjuna_ros2 && sudo rm -rf /root/arjuna2_ws/{*,.??*}'>> /root/.bashrc && \
-    echo '  git clone --recurse-submodules https://github.com/samartha-s-in/arjuna2_ws.git >> /root/.bashrc && \
-    echo '  cd /root/arjuna_ros2/arjuna2_ws' >> /root/.bashrc && \
-    echo '  source /opt/ros/foxy/setup.bash' >> /root/.bashrc && \
-    echo '  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash' >> /root/.bashrc && \
-    echo '  colcon build --symlink-install' >> /root/.bashrc && \
-    echo '  cd /root/' >> /root/.bashrc && \
-    echo '}' >> /root/.bashrc
+RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
+    echo "  cd /root/arjuna_ros2 && sudo rm -rf /root/arjuna2_ws/{*,.??*}" >> /root/.bashrc && \
+    echo "  git clone --recurse-submodules https://github.com/samartha-s-in/arjuna2_ws.git" >> /root/.bashrc && \
+    echo "  cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
+    echo "  source /opt/ros/foxy/setup.bash" >> /root/.bashrc && \
+    echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
+    echo "  colcon build --symlink-install" >> /root/.bashrc && \
+    echo "  cd /root/" >> /root/.bashrc && \
+    echo "}" >> /root/.bashrc
+
 
 
 # 👇 Source workspace automatically
