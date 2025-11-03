@@ -33,7 +33,7 @@ ros2arjuna() {
             --env NVIDIA_VISIBLE_DEVICES=all \
             --env NVIDIA_DRIVER_CAPABILITIES=all \
             --volume /usr/local/cuda:/usr/local/cuda \
-            --volume "$HOME/arjuna2_ws:/root/arjuna2_ws" \
+            --volume "$HOME/arjuna2_ws:/root/arjuna_ros2" \
             -e DISPLAY="$DISPLAY" \
             -e XAUTHORITY="$XAUTHORITY" \
             -e QT_X11_NO_MITSHM=1 \
