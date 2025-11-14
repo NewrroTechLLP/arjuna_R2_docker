@@ -37,6 +37,12 @@ echo ""
 echo "[Step 0] Removing old Docker and NVIDIA toolkit/runtime if any..."
 echo ""
 echo ""
+sudo docker rm -vf $(docker ps -aq)
+sudo docker rmi -f $(docker images -aq)
+sudo docker volume rm $(docker volume ls -q)
+sudo docker system prune -a -v
+docker rm -v arjuna_dev arjuna_ros2
+docker rmi arjuna_v2
 sudo apt-get purge -y docker docker-engine docker.io containerd runc || true
 sudo apt-get purge -y nvidia-container-toolkit nvidia-container-runtime || true
 sudo rm -f /etc/apt/sources.list.d/docker.list
