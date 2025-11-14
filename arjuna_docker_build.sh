@@ -222,7 +222,58 @@ RUN pip3 install -U \
     pytest-repeat \
     pytest-rerunfailures \
     pytest \
-    setuptools 
+    setuptools \
+    opencv-python \
+    zbar \
+    pyzbar \
+
+RUN apt install -y ros-foxy-slam-toolbox
+RUN sudo apt install -y ros-foxy-robot-localization
+RUN sudo apt install -y \
+    ros-foxy-tf2-ros \
+    ros-foxy-tf2-tools \
+    ros-foxy-tf2-msgs \
+    ros-foxy-tf2-geometry-msgs \
+    ros-foxy-tf2-eigen
+
+RUN sudo apt install -y \
+    ros-foxy-navigation2 \
+    ros-foxy-nav2-bringup \
+    ros-foxy-nav2-msgs \
+    ros-foxy-nav2-costmap-2d \
+    ros-foxy-nav2-amcl \
+    ros-foxy-nav2-map-server \
+    ros-foxy-nav2-controller \
+    ros-foxy-nav2-planner \
+    ros-foxy-nav2-behavior-tree
+
+RUN sudo apt install -y ros-foxy-map-msgs ros-foxy-cartographer ros-foxy-cartographer-ros
+
+RUN sudo apt install -y \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    ros-foxy-rviz2 \
+    ros-foxy-rqt \
+    ros-foxy-rqt-common-plugins \
+    ros-foxy-diagnostic-updater
+
+RUN apt install libglib2.0-0 libsm6 libxrender1 libxext6 ffmpeg
+
+RUN pip3 install \
+    opencv-python \
+    numpy \
+    pyzbar \
+    pillow \
+    scikit-image \
+    matplotlib \
+    imutils \
+    pyyaml \
+    tqdm \
+    requests \
+    torch torchvision torchaudio \
+    tensorflow
+
+
 
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install --upgrade importlib-metadata
