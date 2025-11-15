@@ -310,10 +310,6 @@ RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
     echo "}" >> /root/.bashrc && \
 
 
-
-# 👇 Source workspace automatically
-RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc
-
 # Final shell
 CMD ["/bin/bash"]
 
