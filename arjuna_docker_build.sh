@@ -343,7 +343,7 @@ echo ""
 echo ""
 
 echo "[INFO] Sourcing the ~/.bashrc"
-source ~/.bashrc
+source ~/.bashrc \
 
 sudo rm -rf ~/arjuna_R2_docker/
 
