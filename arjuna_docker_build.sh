@@ -225,39 +225,7 @@ RUN pip3 install -U \
     setuptools \
     opencv-python \
     zbar \
-    pyzbar \
 
-RUN apt install ros-foxy-slam-toolbox
-RUN sudo apt install ros-foxy-robot-localization
-RUN sudo apt install \
-    ros-foxy-tf2-ros \
-    ros-foxy-tf2-tools \
-    ros-foxy-tf2-msgs \
-    ros-foxy-tf2-geometry-msgs \
-    ros-foxy-tf2-eigen
-
-RUN sudo apt install \
-    ros-foxy-navigation2 \
-    ros-foxy-nav2-bringup \
-    ros-foxy-nav2-msgs \
-    ros-foxy-nav2-costmap-2d \
-    ros-foxy-nav2-amcl \
-    ros-foxy-nav2-map-server \
-    ros-foxy-nav2-controller \
-    ros-foxy-nav2-planner \
-    ros-foxy-nav2-behavior-tree
-
-RUN sudo apt install ros-foxy-map-msgs ros-foxy-cartographer ros-foxy-cartographer-ros
-
-RUN sudo apt install -y \
-    python3-colcon-common-extensions \
-    python3-rosdep \
-    ros-foxy-rviz2 \
-    ros-foxy-rqt \
-    ros-foxy-rqt-common-plugins \
-    ros-foxy-diagnostic-updater
-
-RUN apt install libglib2.0-0 libsm6 libxrender1 libxext6 ffmpeg
 
 RUN pip3 install \
     opencv-python \
@@ -286,12 +254,15 @@ RUN apt install -y i2c-tools
 # 👇 Source ROS automatically when container starts
 RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
-WORKDIR /root
+WORKDIR /root/ 
 
 # Add ros2arjuna_setup function to .bashrc
 RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "  cd /root/arjuna_ros2 && sudo rm -rf /root/arjuna2_ws/{*,.??*}" >> /root/.bashrc && \
     echo "  git clone --recurse-submodules https://github.com/samartha-s-in/arjuna2_ws.git" >> /root/.bashrc && \
+    echo "   apt install ros-foxy-slam-toolbox" >> /root/.bashrc && \
+    echo "   sudo apt install ros-foxy-robot-localization" >> /root/.bashrc && \
+    echo "   sudo apt install ros-foxy-tf2-ros ros-foxy-tf2-tools" >> /root/.bashrc && \
     echo "  cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
     echo "  source /opt/ros/foxy/setup.bash" >> /root/.bashrc && \
     echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
