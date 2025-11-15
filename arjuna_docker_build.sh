@@ -227,16 +227,16 @@ RUN pip3 install -U \
     zbar \
     pyzbar \
 
-RUN apt install -y ros-foxy-slam-toolbox
-RUN sudo apt install -y ros-foxy-robot-localization
-RUN sudo apt install -y \
+RUN apt install ros-foxy-slam-toolbox
+RUN sudo apt install ros-foxy-robot-localization
+RUN sudo apt install \
     ros-foxy-tf2-ros \
     ros-foxy-tf2-tools \
     ros-foxy-tf2-msgs \
     ros-foxy-tf2-geometry-msgs \
     ros-foxy-tf2-eigen
 
-RUN sudo apt install -y \
+RUN sudo apt install \
     ros-foxy-navigation2 \
     ros-foxy-nav2-bringup \
     ros-foxy-nav2-msgs \
@@ -247,7 +247,7 @@ RUN sudo apt install -y \
     ros-foxy-nav2-planner \
     ros-foxy-nav2-behavior-tree
 
-RUN sudo apt install -y ros-foxy-map-msgs ros-foxy-cartographer ros-foxy-cartographer-ros
+RUN sudo apt install ros-foxy-map-msgs ros-foxy-cartographer ros-foxy-cartographer-ros
 
 RUN sudo apt install -y \
     python3-colcon-common-extensions \
