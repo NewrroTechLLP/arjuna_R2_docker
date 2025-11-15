@@ -297,8 +297,8 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
     echo "  colcon build --symlink-install" >> /root/.bashrc && \
     echo "  cd /root/" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc
-    echo "" >> /root/.bashrc
+    echo "}" >> /root/.bashrc \
+    echo "" >> /root/.bashrc \
 
 RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
     echo "    cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
