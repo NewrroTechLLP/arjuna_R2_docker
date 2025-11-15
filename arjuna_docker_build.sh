@@ -297,17 +297,17 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
     echo "  colcon build --symlink-install" >> /root/.bashrc && \
     echo "  cd /root/" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc \
-    echo "" >> /root/.bashrc \
+    echo "}" >> /root/.bashrc && \
+    echo "" >> /root/.bashrc && \
 
 RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
     echo "    cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
     echo "    code . --no-sandbox --user-data-dir="/root/.vscode"" >> /root/.bashrc && \
     echo "}" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc
+    echo "" >> /root/.bashrc && \
     echo "save_map(){" >> /root/.bashrc && \
     echo "    ros2 run nav2_map_server map_saver_cli -f /root/arjuna_ros2/arjuna2_ws/src/arjuna/arjuna/maps/my_map" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc && \
+    echo "}" >> /root/.bashrc
 
 
 # Final shell
