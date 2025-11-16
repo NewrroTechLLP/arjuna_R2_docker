@@ -241,6 +241,22 @@ RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install \
+    opencv-python \
+    numpy \
+    pyzbar \
+    pillow \
+    scikit-image \
+    matplotlib \
+    imutils \
+    pyyaml \
+    tqdm \
+    requests \
+    torch \
+    torchvision \
+    torchaudio \
+    tensorflow
+
 RUN pip3 install -U \
     pyserial \
     argcomplete \
