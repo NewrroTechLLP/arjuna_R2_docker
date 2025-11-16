@@ -260,7 +260,7 @@ RUN pip3 install -U \
     pyflakes \
     pytest-repeat \
     pytest-rerunfailures \
-    pytest \
+    pytest 
     
 RUN pip3 install setuptools==58.2.0
 
@@ -412,7 +412,7 @@ RUN echo 'save_map() {' >> /root/.bashrc
 RUN echo '  ros2 run nav2_map_server map_saver_cli -f /root/arjuna_ros2/arjuna2_ws/src/arjuna/arjuna/maps/my_map' >> /root/.bashrc
 RUN echo '}' >> /root/.bashrc
 
-RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash " >> /root/.bashrc && \
+RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash " >> /root/.bashrc
 
 
 # Final shell
