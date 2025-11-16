@@ -261,7 +261,8 @@ RUN pip3 install -U \
     pytest-repeat \
     pytest-rerunfailures \
     pytest \
-    setuptools \
+    
+RUN pip3 install setuptools==58.2.0
 
 # Install VS Code in Docker
 RUN apt-get update && apt-get install -y \
