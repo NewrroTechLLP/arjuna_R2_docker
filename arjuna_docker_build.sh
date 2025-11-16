@@ -420,7 +420,7 @@ RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
     echo "    ros2 run nav2_map_server map_saver_cli -f /root/arjuna_ros2/arjuna2_ws/src/arjuna/arjuna/maps/my_map" >> /root/.bashrc && \
     echo "}" >> /root/.bashrc
 
-    echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash " >> /root/.bashrc && \
+RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash " >> /root/.bashrc && \
 
 
 # Final shell
