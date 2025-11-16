@@ -264,18 +264,25 @@ RUN pip3 install -U \
     
 RUN pip3 install setuptools==58.2.0
 
-# Install VS Code in Docker
-RUN apt-get update && apt-get install -y \
-    wget \
-    gpg \
-    apt-transport-https \
-    && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg \
-    && install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg \
-    && sh -c 'echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' \
-    && rm -f packages.microsoft.gpg \
-    && apt-get update \
-    && apt-get install -y code \
-    && rm -rf /var/lib/apt/lists/*
+# Install VS Code using Microsoft's official method with ARM64 support
+RUN apt-get update && apt-get install -y wget gpg apt-transport-https
+
+# Install Microsoft signing key
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg && \
+    rm -f microsoft.gpg
+
+# Create vscode.sources file with ARM64 architecture support
+RUN echo "Types: deb" > /etc/apt/sources.list.d/vscode.sources && \
+    echo "URIs: https://packages.microsoft.com/repos/code" >> /etc/apt/sources.list.d/vscode.sources && \
+    echo "Suites: stable" >> /etc/apt/sources.list.d/vscode.sources && \
+    echo "Components: main" >> /etc/apt/sources.list.d/vscode.sources && \
+    echo "Architectures: amd64,arm64,armhf" >> /etc/apt/sources.list.d/vscode.sources && \
+    echo "Signed-By: /usr/share/keyrings/microsoft.gpg" >> /etc/apt/sources.list.d/vscode.sources
+
+# Install VS Code
+RUN apt-get update && apt-get install -y code && \
+    rm -rf /var/lib/apt/lists/*
 
 
 RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc
