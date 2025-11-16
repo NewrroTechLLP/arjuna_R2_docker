@@ -201,48 +201,6 @@ RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
     python3-argcomplete \
     && rm -rf /var/lib/apt/lists/*
 
-# Extra Python tools for ROS 2
-RUN pip3 install -U \
-    pyserial \
-    serial \
-    argcomplete \
-    flake8 \
-    flake8-blind-except \
-    flake8-builtins \
-    flake8-class-newline \
-    flake8-comprehensions \
-    flake8-deprecated \
-    flake8-docstrings \
-    flake8-import-order \
-    flake8-quotes \
-    mypy \
-    pep8 \
-    pydocstyle \
-    pyflakes \
-    pytest-repeat \
-    pytest-rerunfailures \
-    pytest \
-    setuptools \
-    opencv-python \
-    zbar \
-
-
-RUN pip3 install \
-    opencv-python \
-    numpy \
-    pyzbar \
-    pillow \
-    scikit-image \
-    matplotlib \
-    imutils \
-    pyyaml \
-    tqdm \
-    requests \
-    torch torchvision torchaudio \
-    tensorflow
-
-
-
 RUN python3 -m pip install --upgrade pip
 RUN pip3 install --upgrade importlib-metadata
 RUN pip3 install setuptools==58.2.0
@@ -282,6 +240,28 @@ RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
     cmake \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install -U \
+    pyserial \
+    serial \
+    argcomplete \
+    flake8 \
+    flake8-blind-except \
+    flake8-builtins \
+    flake8-class-newline \
+    flake8-comprehensions \
+    flake8-deprecated \
+    flake8-docstrings \
+    flake8-import-order \
+    flake8-quotes \
+    mypy \
+    pep8 \
+    pydocstyle \
+    pyflakes \
+    pytest-repeat \
+    pytest-rerunfailures \
+    pytest \
+    setuptools \
 
 ###############################################################################
 # ENHANCED ros2arjuna_setup FUNCTION - INSTALLS EVERYTHING
