@@ -338,7 +338,6 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "    python3-yaml \\" >> /root/.bashrc && \
     echo "    python3-psutil \\" >> /root/.bashrc && \
     echo "    python3-pytest \\" >> /root/.bashrc && \
-    echo "    python3-scipy \\" >> /root/.bashrc && \
     echo "    python3-skimage" >> /root/.bashrc && \
     echo "" >> /root/.bashrc && \
     \
@@ -386,13 +385,7 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
     echo "" >> /root/.bashrc && \
     \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  echo '  ✓ ARJUNA SETUP COMPLETE'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  cd /root/" >> /root/.bashrc && \
-    
-    echo "" >> /root/.bashrc
-
+    echo "  # ============ VERIFY INSTALLATION ============" >> /root/.bashrc && \
     echo "  echo '==========================================='" >> /root/.bashrc && \
     echo "  echo '  CHECKING DEPENDENCIES'" >> /root/.bashrc && \
     echo "  echo '==========================================='" >> /root/.bashrc && \
@@ -409,8 +402,14 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "  ros2 pkg list | grep -q robot_localization && echo '✓ Robot Localization' || echo '✗ Robot Localization'" >> /root/.bashrc && \
     echo "  ros2 pkg list | grep -q nav2 && echo '✓ Nav2' || echo '✗ Nav2'" >> /root/.bashrc && \
     echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc
     echo "" >> /root/.bashrc && \
+    \
+    echo "  echo '==========================================='" >> /root/.bashrc && \
+    echo "  echo '  ✓ ARJUNA SETUP COMPLETE'" >> /root/.bashrc && \
+    echo "  echo '==========================================='" >> /root/.bashrc && \
+    echo "  cd /root/" >> /root/.bashrc && \
+    echo "}" >> /root/.bashrc && \
+    echo "" >> /root/.bashrc
 
 RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
     echo "    cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
