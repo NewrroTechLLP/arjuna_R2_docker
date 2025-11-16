@@ -358,8 +358,8 @@ RUN echo '  cd /root/arjuna_ros2/arjuna2_ws/src' >> /root/.bashrc
 RUN echo '  if [ ! -d "sllidar_ros2" ]; then' >> /root/.bashrc
 RUN echo '    git clone https://github.com/Slamtec/sllidar_ros2.git' >> /root/.bashrc
 RUN echo '  fi' >> /root/.bashrc
-RUN echo '  if [ ! -d "ros_imu_bno055" ]; then' >> /root/.bashrc
-RUN echo '    git clone https://github.com/dheera/ros_imu_bno055.git' >> /root/.bashrc
+RUN echo '  if [ ! -d "ros-imu-bno055" ]; then' >> /root/.bashrc
+RUN echo '    git clone https://github.com/dheera/ros-imu-bno055.git' >> /root/.bashrc
 RUN echo '  fi' >> /root/.bashrc
 RUN echo '  echo ""' >> /root/.bashrc
 RUN echo '  # ============ BUILD WORKSPACE ============' >> /root/.bashrc
