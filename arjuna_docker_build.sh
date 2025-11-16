@@ -339,6 +339,8 @@ RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
     echo "    python3-psutil \\" >> /root/.bashrc && \
     echo "    python3-pytest \\" >> /root/.bashrc && \
     echo "    python3-skimage" >> /root/.bashrc && \
+    echo "    python3-zbar" >> /root/.bashrc && \
+    echo "    python3-pyzbar" >> /root/.bashrc && \
     echo "" >> /root/.bashrc && \
     \
     echo "  # ============ PYTHON PACKAGES VIA PIP (NOT IN APT) ============" >> /root/.bashrc && \
