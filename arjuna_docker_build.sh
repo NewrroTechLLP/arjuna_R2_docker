@@ -243,7 +243,6 @@ RUN apt-get update -o Acquire::Retries=5 && apt-get install -y \
 
 RUN pip3 install -U \
     pyserial \
-    serial \
     argcomplete \
     flake8 \
     flake8-blind-except \
@@ -261,8 +260,6 @@ RUN pip3 install -U \
     pytest-repeat \
     pytest-rerunfailures \
     pytest 
-    
-RUN pip3 install setuptools==58.2.0
 
 # Install VS Code using Microsoft's official method with ARM64 support
 RUN apt-get update && apt-get install -y wget gpg apt-transport-https
