@@ -263,144 +263,146 @@ RUN pip3 install -U \
     pytest \
     setuptools \
 
-###############################################################################
-# ENHANCED ros2arjuna_setup FUNCTION - INSTALLS EVERYTHING
-###############################################################################
+# Install VS Code in Docker
+RUN apt-get update && apt-get install -y \
+    wget \
+    gpg \
+    apt-transport-https \
+    && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg \
+    && install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg \
+    && sh -c 'echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' \
+    && rm -f packages.microsoft.gpg \
+    && apt-get update \
+    && apt-get install -y code \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN echo "ros2arjuna_setup() {" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  echo '  ARJUNA SETUP - INSTALLING ALL DEPENDENCIES'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ ROS 2 PACKAGES ============" >> /root/.bashrc && \
-    echo "  echo 'Installing ROS 2 packages...'" >> /root/.bashrc && \
-    echo "  sudo apt update" >> /root/.bashrc && \
-    echo "  sudo apt install -y \\" >> /root/.bashrc && \
-    echo "    ros-foxy-nav2-bringup \\" >> /root/.bashrc && \
-    echo "    ros-foxy-nav2-lifecycle-manager \\" >> /root/.bashrc && \
-    echo "    ros-foxy-nav2-map-server \\" >> /root/.bashrc && \
-    echo "    ros-foxy-navigation2 \\" >> /root/.bashrc && \
-    echo "    ros-foxy-nav2-common \\" >> /root/.bashrc && \
-    echo "    ros-foxy-slam-toolbox \\" >> /root/.bashrc && \
-    echo "    ros-foxy-cartographer \\" >> /root/.bashrc && \
-    echo "    ros-foxy-cartographer-ros \\" >> /root/.bashrc && \
-    echo "    ros-foxy-robot-localization \\" >> /root/.bashrc && \
-    echo "    ros-foxy-tf2-ros \\" >> /root/.bashrc && \
-    echo "    ros-foxy-tf2-geometry-msgs \\" >> /root/.bashrc && \
-    echo "    ros-foxy-tf2-tools \\" >> /root/.bashrc && \
-    echo "    ros-foxy-robot-state-publisher \\" >> /root/.bashrc && \
-    echo "    ros-foxy-teleop-twist-keyboard \\" >> /root/.bashrc && \
-    echo "    ros-foxy-teleop-twist-joy \\" >> /root/.bashrc && \
-    echo "    ros-foxy-rviz2 \\" >> /root/.bashrc && \
-    echo "    ros-foxy-rviz-default-plugins \\" >> /root/.bashrc && \
-    echo "    ros-foxy-rqt \\" >> /root/.bashrc && \
-    echo "    ros-foxy-rqt-common-plugins \\" >> /root/.bashrc && \
-    echo "    ros-foxy-cv-bridge \\" >> /root/.bashrc && \
-    echo "    ros-foxy-vision-opencv \\" >> /root/.bashrc && \
-    echo "    ros-foxy-image-transport \\" >> /root/.bashrc && \
-    echo "    ros-foxy-compressed-image-transport \\" >> /root/.bashrc && \
-    echo "    ros-foxy-joint-state-publisher \\" >> /root/.bashrc && \
-    echo "    ros-foxy-xacro" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ PYTHON PACKAGES VIA APT ============" >> /root/.bashrc && \
-    echo "  echo 'Installing Python packages via apt...'" >> /root/.bashrc && \
-    echo "  sudo apt install -y \\" >> /root/.bashrc && \
-    echo "    python3-opencv \\" >> /root/.bashrc && \
-    echo "    python3-numpy \\" >> /root/.bashrc && \
-    echo "    python3-scipy \\" >> /root/.bashrc && \
-    echo "    python3-matplotlib \\" >> /root/.bashrc && \
-    echo "    python3-pil \\" >> /root/.bashrc && \
-    echo "    python3-flask \\" >> /root/.bashrc && \
-    echo "    python3-flask-cors \\" >> /root/.bashrc && \
-    echo "    python3-requests \\" >> /root/.bashrc && \
-    echo "    python3-yaml \\" >> /root/.bashrc && \
-    echo "    python3-psutil \\" >> /root/.bashrc && \
-    echo "    python3-pytest \\" >> /root/.bashrc && \
-    echo "    python3-skimage" >> /root/.bashrc && \
-    echo "    python3-zbar" >> /root/.bashrc && \
-    echo "    python3-pyzbar" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ PYTHON PACKAGES VIA PIP (NOT IN APT) ============" >> /root/.bashrc && \
-    echo "  echo 'Installing Python packages via pip3...'" >> /root/.bashrc && \
-    echo "  pip3 install --break-system-packages \\" >> /root/.bashrc && \
-    echo "    pyzbar \\" >> /root/.bashrc && \
-    echo "    qrcode \\" >> /root/.bashrc && \
-    echo "    transforms3d \\" >> /root/.bashrc && \
-    echo "    pyquaternion \\" >> /root/.bashrc && \
-    echo "    RPi.GPIO \\" >> /root/.bashrc && \
-    echo "    gpiozero \\" >> /root/.bashrc && \
-    echo "    SpeechRecognition \\" >> /root/.bashrc && \
-    echo "    pyttsx3 \\" >> /root/.bashrc && \
-    echo "    playsound \\" >> /root/.bashrc && \
-    echo "    flask-socketio \\" >> /root/.bashrc && \
-    echo "    python-socketio \\" >> /root/.bashrc && \
-    echo "    simple-pid \\" >> /root/.bashrc && \
-    echo "    imutils \\" >> /root/.bashrc && \
-    echo "    tqdm" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ CLONE WORKSPACE ============" >> /root/.bashrc && \
-    echo "  echo 'Cloning Arjuna workspace...'" >> /root/.bashrc && \
-    echo "  cd /root/arjuna_ros2 && sudo rm -rf /root/arjuna2_ws/{*,.??*}" >> /root/.bashrc && \
-    echo "  git clone --recurse-submodules https://github.com/samartha-s-in/arjuna2_ws.git" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ CLONE HARDWARE DRIVERS ============" >> /root/.bashrc && \
-    echo "  echo 'Cloning hardware drivers...'" >> /root/.bashrc && \
-    echo "  cd /root/arjuna_ros2/arjuna2_ws/src" >> /root/.bashrc && \
-    echo "  if [ ! -d 'sllidar_ros2' ]; then" >> /root/.bashrc && \
-    echo "    git clone https://github.com/Slamtec/sllidar_ros2.git" >> /root/.bashrc && \
-    echo "  fi" >> /root/.bashrc && \
-    echo "  if [ ! -d 'bno055' ]; then" >> /root/.bashrc && \
-    echo "    git clone https://github.com/flynneva/bno055.git" >> /root/.bashrc && \
-    echo "  fi" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ BUILD WORKSPACE ============" >> /root/.bashrc && \
-    echo "  echo 'Building workspace...'" >> /root/.bashrc && \
-    echo "  cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
-    echo "  source /opt/ros/foxy/setup.bash" >> /root/.bashrc && \
-    echo "  colcon build --symlink-install" >> /root/.bashrc && \
-    echo "  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  # ============ VERIFY INSTALLATION ============" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  echo '  CHECKING DEPENDENCIES'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  python3 -c 'import cv2; print(\"✓ OpenCV:\", cv2.__version__)' 2>/dev/null || echo '✗ OpenCV'" >> /root/.bashrc && \
-    echo "  python3 -c 'import pyzbar; print(\"✓ pyzbar\")' 2>/dev/null || echo '✗ pyzbar'" >> /root/.bashrc && \
-    echo "  python3 -c 'import transforms3d; print(\"✓ transforms3d\")' 2>/dev/null || echo '✗ transforms3d'" >> /root/.bashrc && \
-    echo "  python3 -c 'import serial; print(\"✓ pyserial\")' 2>/dev/null || echo '✗ pyserial'" >> /root/.bashrc && \
-    echo "  python3 -c 'import speech_recognition; print(\"✓ SpeechRecognition\")' 2>/dev/null || echo '✗ SpeechRecognition'" >> /root/.bashrc && \
-    echo "  python3 -c 'import flask; print(\"✓ Flask\")' 2>/dev/null || echo '✗ Flask'" >> /root/.bashrc && \
-    echo "  python3 -c 'import numpy; print(\"✓ NumPy:\", numpy.__version__)' 2>/dev/null || echo '✗ NumPy'" >> /root/.bashrc && \
-    echo "  python3 -c 'import psutil; print(\"✓ psutil\")' 2>/dev/null || echo '✗ psutil'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  ros2 pkg list | grep -q slam_toolbox && echo '✓ SLAM Toolbox' || echo '✗ SLAM Toolbox'" >> /root/.bashrc && \
-    echo "  ros2 pkg list | grep -q robot_localization && echo '✓ Robot Localization' || echo '✗ Robot Localization'" >> /root/.bashrc && \
-    echo "  ros2 pkg list | grep -q nav2 && echo '✓ Nav2' || echo '✗ Nav2'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  echo '  ✓ ARJUNA SETUP COMPLETE'" >> /root/.bashrc && \
-    echo "  echo '==========================================='" >> /root/.bashrc && \
-    echo "  cd /root/" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc
 
-RUN echo "ros2arjuna_open() {" >> /root/.bashrc && \
-    echo "    cd /root/arjuna_ros2/arjuna2_ws" >> /root/.bashrc && \
-    echo "    code . --no-sandbox --user-data-dir="/root/.vscode"" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc && \
-    echo "" >> /root/.bashrc && \
-    echo "save_map(){" >> /root/.bashrc && \
-    echo "    ros2 run nav2_map_server map_saver_cli -f /root/arjuna_ros2/arjuna2_ws/src/arjuna/arjuna/maps/my_map" >> /root/.bashrc && \
-    echo "}" >> /root/.bashrc
+RUN echo 'ros2arjuna_setup() {' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  echo "  ARJUNA SETUP - INSTALLING ALL DEPENDENCIES"' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ ROS 2 PACKAGES ============' >> /root/.bashrc
+RUN echo '  echo "Installing ROS 2 packages..."' >> /root/.bashrc
+RUN echo '  apt-get update -o Acquire::Retries=3 -o Acquire::http::Timeout=120' >> /root/.bashrc
+RUN echo '  apt-get install -y \' >> /root/.bashrc
+RUN echo '    ros-foxy-nav2-bringup \' >> /root/.bashrc
+RUN echo '    ros-foxy-nav2-lifecycle-manager \' >> /root/.bashrc
+RUN echo '    ros-foxy-nav2-map-server \' >> /root/.bashrc
+RUN echo '    ros-foxy-navigation2 \' >> /root/.bashrc
+RUN echo '    ros-foxy-nav2-common \' >> /root/.bashrc
+RUN echo '    ros-foxy-slam-toolbox \' >> /root/.bashrc
+RUN echo '    ros-foxy-cartographer \' >> /root/.bashrc
+RUN echo '    ros-foxy-cartographer-ros \' >> /root/.bashrc
+RUN echo '    ros-foxy-robot-localization \' >> /root/.bashrc
+RUN echo '    ros-foxy-tf2-ros \' >> /root/.bashrc
+RUN echo '    ros-foxy-tf2-geometry-msgs \' >> /root/.bashrc
+RUN echo '    ros-foxy-tf2-tools \' >> /root/.bashrc
+RUN echo '    ros-foxy-robot-state-publisher \' >> /root/.bashrc
+RUN echo '    ros-foxy-teleop-twist-keyboard \' >> /root/.bashrc
+RUN echo '    ros-foxy-teleop-twist-joy \' >> /root/.bashrc
+RUN echo '    ros-foxy-rviz2 \' >> /root/.bashrc
+RUN echo '    ros-foxy-rviz-default-plugins \' >> /root/.bashrc
+RUN echo '    ros-foxy-rqt \' >> /root/.bashrc
+RUN echo '    ros-foxy-rqt-common-plugins \' >> /root/.bashrc
+RUN echo '    ros-foxy-cv-bridge \' >> /root/.bashrc
+RUN echo '    ros-foxy-vision-opencv \' >> /root/.bashrc
+RUN echo '    ros-foxy-image-transport \' >> /root/.bashrc
+RUN echo '    ros-foxy-compressed-image-transport \' >> /root/.bashrc
+RUN echo '    ros-foxy-joint-state-publisher \' >> /root/.bashrc
+RUN echo '    ros-foxy-xacro' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ PYTHON PACKAGES VIA APT ============' >> /root/.bashrc
+RUN echo '  echo "Installing Python packages via apt..."' >> /root/.bashrc
+RUN echo '  apt-get install -y \' >> /root/.bashrc
+RUN echo '    python3-opencv \' >> /root/.bashrc
+RUN echo '    python3-numpy \' >> /root/.bashrc
+RUN echo '    python3-scipy \' >> /root/.bashrc
+RUN echo '    python3-matplotlib \' >> /root/.bashrc
+RUN echo '    python3-pil \' >> /root/.bashrc
+RUN echo '    python3-flask \' >> /root/.bashrc
+RUN echo '    python3-flask-cors \' >> /root/.bashrc
+RUN echo '    python3-requests \' >> /root/.bashrc
+RUN echo '    python3-yaml \' >> /root/.bashrc
+RUN echo '    python3-psutil \' >> /root/.bashrc
+RUN echo '    python3-pytest \' >> /root/.bashrc
+RUN echo '    python3-skimage' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ PYTHON PACKAGES VIA PIP (NOT IN APT) ============' >> /root/.bashrc
+RUN echo '  echo "Installing Python packages via pip3..."' >> /root/.bashrc
+RUN echo '  pip3 install --break-system-packages \' >> /root/.bashrc
+RUN echo '    pyzbar \' >> /root/.bashrc
+RUN echo '    qrcode \' >> /root/.bashrc
+RUN echo '    transforms3d \' >> /root/.bashrc
+RUN echo '    pyquaternion \' >> /root/.bashrc
+RUN echo '    RPi.GPIO \' >> /root/.bashrc
+RUN echo '    gpiozero \' >> /root/.bashrc
+RUN echo '    SpeechRecognition \' >> /root/.bashrc
+RUN echo '    pyttsx3 \' >> /root/.bashrc
+RUN echo '    playsound \' >> /root/.bashrc
+RUN echo '    flask-socketio \' >> /root/.bashrc
+RUN echo '    python-socketio \' >> /root/.bashrc
+RUN echo '    simple-pid \' >> /root/.bashrc
+RUN echo '    imutils \' >> /root/.bashrc
+RUN echo '    tqdm' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ CLONE WORKSPACE ============' >> /root/.bashrc
+RUN echo '  echo "Cloning Arjuna workspace..."' >> /root/.bashrc
+RUN echo '  mkdir -p /root/arjuna_ros2' >> /root/.bashrc
+RUN echo '  cd /root/arjuna_ros2 && rm -rf arjuna2_ws' >> /root/.bashrc
+RUN echo '  git clone --recurse-submodules https://github.com/samartha-s-in/arjuna2_ws.git' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ CLONE HARDWARE DRIVERS ============' >> /root/.bashrc
+RUN echo '  echo "Cloning hardware drivers..."' >> /root/.bashrc
+RUN echo '  cd /root/arjuna_ros2/arjuna2_ws/src' >> /root/.bashrc
+RUN echo '  if [ ! -d "sllidar_ros2" ]; then' >> /root/.bashrc
+RUN echo '    git clone https://github.com/Slamtec/sllidar_ros2.git' >> /root/.bashrc
+RUN echo '  fi' >> /root/.bashrc
+RUN echo '  if [ ! -d "bno055" ]; then' >> /root/.bashrc
+RUN echo '    git clone https://github.com/dheera/ros_imu_bno055.git' >> /root/.bashrc
+RUN echo '  fi' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ BUILD WORKSPACE ============' >> /root/.bashrc
+RUN echo '  echo "Building workspace..."' >> /root/.bashrc
+RUN echo '  cd /root/arjuna_ros2/arjuna2_ws' >> /root/.bashrc
+RUN echo '  source /opt/ros/foxy/setup.bash' >> /root/.bashrc
+RUN echo '  colcon build --symlink-install' >> /root/.bashrc
+RUN echo '  source /root/arjuna_ros2/arjuna2_ws/install/setup.bash' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  # ============ VERIFY INSTALLATION ============' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  echo "  CHECKING DEPENDENCIES"' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  python3 -c "import cv2; print(\"✓ OpenCV:\", cv2.__version__)" 2>/dev/null || echo "✗ OpenCV"' >> /root/.bashrc
+RUN echo '  python3 -c "import pyzbar; print(\"✓ pyzbar\")" 2>/dev/null || echo "✗ pyzbar"' >> /root/.bashrc
+RUN echo '  python3 -c "import transforms3d; print(\"✓ transforms3d\")" 2>/dev/null || echo "✗ transforms3d"' >> /root/.bashrc
+RUN echo '  python3 -c "import serial; print(\"✓ pyserial\")" 2>/dev/null || echo "✗ pyserial"' >> /root/.bashrc
+RUN echo '  python3 -c "import speech_recognition; print(\"✓ SpeechRecognition\")" 2>/dev/null || echo "✗ SpeechRecognition"' >> /root/.bashrc
+RUN echo '  python3 -c "import flask; print(\"✓ Flask\")" 2>/dev/null || echo "✗ Flask"' >> /root/.bashrc
+RUN echo '  python3 -c "import numpy; print(\"✓ NumPy:\", numpy.__version__)" 2>/dev/null || echo "✗ NumPy"' >> /root/.bashrc
+RUN echo '  python3 -c "import psutil; print(\"✓ psutil\")" 2>/dev/null || echo "✗ psutil"' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  ros2 pkg list | grep -q slam_toolbox && echo "✓ SLAM Toolbox" || echo "✗ SLAM Toolbox"' >> /root/.bashrc
+RUN echo '  ros2 pkg list | grep -q robot_localization && echo "✓ Robot Localization" || echo "✗ Robot Localization"' >> /root/.bashrc
+RUN echo '  ros2 pkg list | grep -q nav2 && echo "✓ Nav2" || echo "✗ Nav2"' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  echo ""' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  echo "  ✓ ARJUNA SETUP COMPLETE"' >> /root/.bashrc
+RUN echo '  echo "==========================================="' >> /root/.bashrc
+RUN echo '  cd /root/' >> /root/.bashrc
+RUN echo '}' >> /root/.bashrc
+RUN echo '' >> /root/.bashrc
+
+RUN echo 'ros2arjuna_open() {' >> /root/.bashrc
+RUN echo '  cd /root/arjuna_ros2/arjuna2_ws' >> /root/.bashrc
+RUN echo '  code . --no-sandbox --user-data-dir="/root/.vscode"' >> /root/.bashrc
+RUN echo '}' >> /root/.bashrc
+RUN echo '' >> /root/.bashrc
+
+RUN echo 'save_map() {' >> /root/.bashrc
+RUN echo '  ros2 run nav2_map_server map_saver_cli -f /root/arjuna_ros2/arjuna2_ws/src/arjuna/arjuna/maps/my_map' >> /root/.bashrc
+RUN echo '}' >> /root/.bashrc
 
 RUN echo "source /root/arjuna_ros2/arjuna2_ws/install/setup.bash " >> /root/.bashrc && \
 
