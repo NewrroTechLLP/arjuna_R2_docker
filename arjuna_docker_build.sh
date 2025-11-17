@@ -144,6 +144,8 @@ sudo systemctl restart docker
 echo ""
 echo ""
 
+sudo docker system prune -a -f --volumes
+
 # --- Step (Optional): NVIDIA NGC login ---
 
 #NGC_API_KEY="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"
